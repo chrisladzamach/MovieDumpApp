@@ -19,7 +19,12 @@ class CriteriaItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Expanded(child: Text(name)),
+          Expanded(
+            child: Text(
+              "$name:",
+              style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500),
+            ),
+          ),
           SizedBox(
             width: 80,
             child: TextField(

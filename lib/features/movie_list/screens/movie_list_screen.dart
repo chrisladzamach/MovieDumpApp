@@ -12,7 +12,10 @@ class MovieListScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.green,
-        title: const Text("Puntuación películas"),
+        title: const Text(
+          "Puntuación películas",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
       ),
 
       body: Container(
@@ -31,7 +34,8 @@ class MovieListScreen extends StatelessWidget {
 
       floatingActionButton: FloatingActionButton(
         onPressed: () => Navigator.pushNamed(context, Routes.addMovie),
-        child: const Icon(Icons.add),
+        backgroundColor: AppColors.buttonColor,
+        child: const Icon(Icons.add, color: Colors.white),
       ),
     );
   }

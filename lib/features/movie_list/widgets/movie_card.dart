@@ -31,17 +31,27 @@ class MovieCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(movie.title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    )),
+                Text(
+                  movie.title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: AppColors.primary,
+                  ),
+                ),
                 const SizedBox(height: 6),
                 Row(
-                  children: List.generate(
-                    movie.averageScore.round(),
-                    (_) => const Icon(Icons.star, color: AppColors.primary, size: 20),
-                  ),
+                  children: [
+                    Text(
+                      "Score: ${movie.averageScore.toStringAsFixed(1)}",
+                      style: const TextStyle(
+                        fontSize: 14,
+                        color: Colors.white70,
+                      ),
+                    ),
+                    SizedBox(width: 6),
+                    Row(children: _buildStars(movie.averageScore)),
+                  ],
                 ),
               ],
             ),
@@ -49,5 +59,28 @@ class MovieCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  List<Widget> _buildStars(double score) {
+    // Convertir 0–10 -> 0–5
+    double starRating = (score / 10) * 5;
+
+    int fullStars = starRating.floor();
+    bool halfStar = (starRating - fullStars) >= 0.5;
+    int emptyStars = 5 - fullStars - (halfStar ? 1 : 0);
+
+    return [
+      ...List.generate(
+        fullStars,
+        (_) => const Icon(Icons.star, color: Colors.yellow, size: 20),
+      ),
+
+      if (halfStar) const Icon(Icons.star_half, color: Colors.yellow, size: 20),
+
+      ...List.generate(
+        emptyStars,
+        (_) => const Icon(Icons.star_border, color: Colors.yellow, size: 20),
+      ),
+    ];
   }
 }

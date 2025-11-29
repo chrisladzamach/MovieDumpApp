@@ -29,4 +29,15 @@ class AddMovieController {
 
     criteria.add(EvaluationCriteria(name: name.trim(), score: 0.0));
   }
+
+  void reset() {
+    criteria
+      ..clear()
+      ..addAll(
+        defaultCriteria.map(
+          (c) => EvaluationCriteria(name: c.name, score: 0.0),
+        ),
+      );
+  }
+
 }

@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../../data/models/movie.dart';
 import '../../../../core/constants/app_colors.dart';
 
-// TODO: Add image to each movie
 class MovieCard extends StatelessWidget {
   final Movie movie;
 

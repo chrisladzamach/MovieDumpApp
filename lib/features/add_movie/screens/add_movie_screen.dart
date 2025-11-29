@@ -24,6 +24,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
   final noteController = TextEditingController();
   final addCriteriaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+    int _criteriaVersion = 0;
 
   @override
   void initState() {
@@ -63,6 +64,23 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.refresh_rounded, color: Colors.white),
+            onPressed: () {
+              setState(() {
+                controller.reset();
+                titleController.clear();
+                noteController.clear();
+                addCriteriaController.clear();
+                selectedImage = null;
+                _formKey.currentState?.reset();
+                showAddCriteriaField = false;
+                                _criteriaVersion++;
+              });
+            },
+          ),
+        ],
         backgroundColor: AppColors.buttonColor,
       ),
       body: Padding(
@@ -97,6 +115,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
               ...List.generate(controller.criteria.length, (i) {
                 final c = controller.criteria[i];
                 return CriteriaItem(
+                  key: ValueKey('${c.name}-$_criteriaVersion-$i'),   
                   name: c.name,
                   score: c.score,
                   onScoreChanged: (value) {
@@ -173,13 +192,19 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
               const SizedBox(height: 20),
               TextField(
                 controller: noteController,
-                decoration: const InputDecoration(labelText: "Observaciones"),
+                decoration: const InputDecoration(
+                  labelText: "Observaciones (opcional)",
+                ),
                 maxLines: 3,
               ),
               const SizedBox(height: 20),
               const Text(
                 "Imagen (opcional)",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w300,
+                  color: Color(0xFF404040),
+                ),
               ),
 
               const SizedBox(height: 10),
@@ -201,14 +226,28 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                           : null,
                     ),
                     child: selectedImage == null
-                        ? const Icon(Icons.image, color: Colors.white38)
+                        ? const Icon(Icons.image, color: Colors.black, size: 60)
                         : null,
                   ),
 
                   const SizedBox(width: 12),
 
                   ElevatedButton(
-                    onPressed: pickImage,
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      backgroundColor: AppColors.buttonColor,
+                      foregroundColor: Colors.white,
+                      elevation: 5,
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 14,
+                        horizontal: 20,
+                      ),
+                    ),
+                    onPressed: () async {
+                      await pickImage();
+                    },
                     child: const Text("Seleccionar foto"),
                   ),
                 ],
@@ -224,6 +263,13 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                       noteController.text,
                       imagePath: selectedImage?.path,
                     );
+
+                    setState(() {
+                      titleController.clear();
+                      noteController.clear();
+                      addCriteriaController.clear();
+                      selectedImage = null;
+                    });
 
                     Navigator.pop(context);
                   }

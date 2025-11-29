@@ -2,7 +2,6 @@ import 'package:moviedump/data/models/evaluation_criteria.dart';
 
 import '../models/movie.dart';
 
-// TODO: Add image to each movie
 final List<Movie> sampleMovies = [
   Movie(
     title: "Interestellar",

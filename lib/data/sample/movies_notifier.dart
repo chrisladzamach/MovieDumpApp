@@ -1,0 +1,25 @@
+import 'package:flutter/material.dart';
+import '../models/movie.dart';
+import '../models/evaluation_criteria.dart';
+
+/// Lista reactiva que usa ValueNotifier para notificar cambios a la UI.
+ValueNotifier<List<Movie>> moviesNotifier = ValueNotifier<List<Movie>>([
+  Movie(
+    title: "Interestellar",
+    criteria: [
+      EvaluationCriteria(name: "Fotografía/efectos visuales", score: 0.0),
+      EvaluationCriteria(name: "Guion", score: 0.0),
+      EvaluationCriteria(name: "Banda sonora", score: 0.0),
+      EvaluationCriteria(name: "Actuación", score: 0.0),
+    ],
+  ),
+  Movie(
+    title: "Avatar",
+    criteria: [
+      EvaluationCriteria(name: "Fotografía/efectos visuales", score: 0.0),
+      EvaluationCriteria(name: "Guion", score: 0.0),
+      EvaluationCriteria(name: "Banda sonora", score: 0.0),
+      EvaluationCriteria(name: "Actuación", score: 0.0),
+    ],
+  ),
+]);

@@ -37,7 +37,14 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text("Añadir película"),
+        title: const Text(
+          "Añadir película",
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back, color: Colors.white),
+          onPressed: () => Navigator.pop(context),
+        ),
         backgroundColor: Colors.green,
       ),
       body: Padding(

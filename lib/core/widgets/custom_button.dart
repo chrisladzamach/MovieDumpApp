@@ -11,12 +11,21 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
-        backgroundColor: AppColors.buttonColor,
-        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        backgroundColor: Colors.green,
+        foregroundColor: AppColors.card,
+        elevation: 5,
         padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 20),
       ),
       onPressed: onPressed,
-      child: Text(text),
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 18,
+          letterSpacing: 1,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
     );
   }
 }

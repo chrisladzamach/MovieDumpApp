@@ -45,7 +45,7 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
           icon: const Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
-        backgroundColor: Colors.green,
+        backgroundColor: AppColors.buttonColor,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),

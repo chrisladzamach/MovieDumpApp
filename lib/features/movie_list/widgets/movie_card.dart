@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import '../../../../data/models/movie.dart';
 import '../../../../core/constants/app_colors.dart';
@@ -19,14 +22,18 @@ class MovieCard extends StatelessWidget {
       ),
       child: Row(
         children: [
+          // Imagen opcional: si hay ruta y no es web, mostramos FileImage.
           Container(
             width: 60,
             height: 60,
             decoration: BoxDecoration(
               border: Border.all(color: Colors.white30),
               borderRadius: BorderRadius.circular(12),
+              image: _buildDecorationImage(),
             ),
+            child: _buildImageFallback(),
           ),
+
           const SizedBox(width: 16),
           Expanded(
             child: Column(
@@ -60,6 +67,41 @@ class MovieCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  DecorationImage? _buildDecorationImage() {
+    // Si estamos en web no podemos usar FileImage.
+    if (movie.imagePath == null || movie.imagePath!.isEmpty) return null;
+
+    if (kIsWeb) {
+      // Si en algún momento guardas URLs en lugar de rutas locales,
+      // puedes cambiar esto a NetworkImage(movie.imagePath!)
+      return null;
+    }
+
+    try {
+      final file = File(movie.imagePath!);
+      if (!file.existsSync()) return null;
+      return DecorationImage(image: FileImage(file), fit: BoxFit.cover);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  Widget? _buildImageFallback() {
+    // Si no hay imagen (o no se puede mostrar), mostramos un icono.
+    if (movie.imagePath == null || movie.imagePath!.isEmpty) {
+      return const Icon(Icons.image, color: Colors.white38);
+    }
+
+    // En web, si el path no es una URL, aún mostramos el icono.
+    if (kIsWeb) {
+      return const Icon(Icons.image, color: Colors.white38);
+    }
+
+    // Si llegamos aquí y hay archivo válido, no mostramos nada extra
+    // porque la imagen ya está en DecorationImage.
+    return null;
   }
 
   List<Widget> _buildStars(double score) {

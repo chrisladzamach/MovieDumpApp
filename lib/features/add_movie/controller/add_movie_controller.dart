@@ -13,11 +13,13 @@ class AddMovieController {
     criteria[index].score = newScore;
   }
 
-  void saveMovie(String title, String? note) {
-    final newMovie = Movie(title: title, criteria: criteria, notes: note);
-
-    if (newMovie.title.isEmpty) return;
-    if (newMovie.criteria.isEmpty) return;
+  void saveMovie(String title, String? note, {String? imagePath}) {
+    final newMovie = Movie(
+      title: title,
+      criteria: criteria,
+      notes: note,
+      imagePath: imagePath,
+    );
 
     moviesNotifier.value = [...moviesNotifier.value, newMovie];
   }
@@ -25,8 +27,6 @@ class AddMovieController {
   void addCriteria(String name) {
     if (name.trim().isEmpty) return;
 
-    criteria.add(
-      EvaluationCriteria(name: name.trim(), score: 0.0),
-    );
+    criteria.add(EvaluationCriteria(name: name.trim(), score: 0.0));
   }
 }

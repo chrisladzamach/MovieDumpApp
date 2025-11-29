@@ -4,6 +4,10 @@ import '../../../core/widgets/custom_button.dart';
 import '../../../core/widgets/custom_add_criteria_button.dart';
 import '../controller/add_movie_controller.dart';
 import '../widgets/criteria_item.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+
+File? selectedImage;
 
 class AddMovieScreen extends StatefulWidget {
   const AddMovieScreen({super.key});
@@ -33,6 +37,17 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
     titleController.dispose();
     noteController.dispose();
     super.dispose();
+  }
+
+  Future<void> pickImage() async {
+    final picker = ImagePicker();
+    final picked = await picker.pickImage(source: ImageSource.gallery);
+
+    if (picked != null) {
+      setState(() {
+        selectedImage = File(picked.path);
+      });
+    }
   }
 
   @override
@@ -161,6 +176,43 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                 decoration: const InputDecoration(labelText: "Observaciones"),
                 maxLines: 3,
               ),
+              const SizedBox(height: 20),
+              const Text(
+                "Imagen (opcional)",
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              ),
+
+              const SizedBox(height: 10),
+
+              Row(
+                children: [
+                  // Vista previa
+                  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: Colors.white38),
+                      image: selectedImage != null
+                          ? DecorationImage(
+                              image: FileImage(selectedImage!),
+                              fit: BoxFit.cover,
+                            )
+                          : null,
+                    ),
+                    child: selectedImage == null
+                        ? const Icon(Icons.image, color: Colors.white38)
+                        : null,
+                  ),
+
+                  const SizedBox(width: 12),
+
+                  ElevatedButton(
+                    onPressed: pickImage,
+                    child: const Text("Seleccionar foto"),
+                  ),
+                ],
+              ),
 
               const SizedBox(height: 20),
               CustomButton(
@@ -170,7 +222,9 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                     controller.saveMovie(
                       titleController.text.trim(),
                       noteController.text,
+                      imagePath: selectedImage?.path,
                     );
+
                     Navigator.pop(context);
                   }
                 },

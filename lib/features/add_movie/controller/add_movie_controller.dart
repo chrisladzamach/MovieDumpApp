@@ -21,4 +21,12 @@ class AddMovieController {
 
     moviesNotifier.value = [...moviesNotifier.value, newMovie];
   }
+
+  void addCriteria(String name) {
+    if (name.trim().isEmpty) return;
+
+    criteria.add(
+      EvaluationCriteria(name: name.trim(), score: 0.0),
+    );
+  }
 }

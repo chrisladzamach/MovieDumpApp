@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:moviedump/core/constants/app_colors.dart';
 import '../../../core/widgets/custom_button.dart';
+import '../../../core/widgets/custom_add_criteria_button.dart';
 import '../controller/add_movie_controller.dart';
 import '../widgets/criteria_item.dart';
 
@@ -13,9 +14,11 @@ class AddMovieScreen extends StatefulWidget {
 
 class _AddMovieScreenState extends State<AddMovieScreen> {
   late final AddMovieController controller;
+  bool showAddCriteriaField = false;
 
   final titleController = TextEditingController();
   final noteController = TextEditingController();
+  final addCriteriaController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -88,6 +91,69 @@ class _AddMovieScreenState extends State<AddMovieScreen> {
                   },
                 );
               }),
+
+              const SizedBox(height: 20),
+
+              if (!showAddCriteriaField)
+                Row(
+                  children: [
+                    CustomAddCriteriaButton(
+                      text: "Añadir criterio",
+                      onPressed: () {
+                        setState(() {
+                          showAddCriteriaField = true;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 12),
+                  ],
+                ),
+
+              if (showAddCriteriaField) ...[
+                const SizedBox(height: 12),
+
+                TextField(
+                  controller: addCriteriaController,
+                  decoration: const InputDecoration(
+                    labelText: "Nuevo criterio",
+                    hintText: "Ej: Fotografía, Guion, etc.",
+                  ),
+                ),
+
+                const SizedBox(height: 12),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomAddCriteriaButton(
+                        text: "Añadir",
+                        onPressed: () {
+                          final text = addCriteriaController.text.trim();
+                          if (text.isEmpty) return;
+
+                          setState(() {
+                            controller.addCriteria(text);
+                            addCriteriaController.clear();
+                            showAddCriteriaField = false;
+                          });
+                        },
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: CustomAddCriteriaButton(
+                        text: "Cancelar",
+                        onPressed: () {
+                          setState(() {
+                            addCriteriaController.clear();
+                            showAddCriteriaField = false;
+                          });
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ],
 
               const SizedBox(height: 20),
               TextField(

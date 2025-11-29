@@ -4,11 +4,13 @@ class Movie {
   String title;
   List<EvaluationCriteria> criteria;
   String? notes;
+  String? imagePath;
 
   Movie({
     required this.title,
     required this.criteria,
     this.notes,
+    this.imagePath,
   });
 
   double get averageScore {

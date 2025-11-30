@@ -18,7 +18,7 @@ MovieDump is a Flutter mobile application that allows users to manage and evalua
 ### Installation
 1. Clone the repository:
    ```bash
-   git clone <your-repo-url>
+   git clone https://github.com/chrisladzamach/MovieDumpApp.git
    ```
 2. Navigate to the project folder:
    ```bash
@@ -88,7 +88,7 @@ MovieDump es una aplicación móvil desarrollada en Flutter que permite a los us
 ### Instalación
 1. Clonar el repositorio:
    ```bash
-   git clone <tu-url-del-repo>
+   git clone https://github.com/chrisladzamach/MovieDumpApp.git
    ```
 2. Ir a la carpeta del proyecto:
    ```bash

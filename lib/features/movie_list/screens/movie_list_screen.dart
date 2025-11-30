@@ -74,7 +74,13 @@ class MovieListScreen extends StatelessWidget {
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
                     final movie = movies[index];
-                    return MovieCard(movie: movie);
+
+                    return MovieCard(
+                      movie: movie,
+                      onDelete: () {
+                        deleteMovie(movie);
+                      },
+                    );
                   },
                 );
               },

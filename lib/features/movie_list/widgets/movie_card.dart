@@ -7,8 +7,9 @@ import '../../../../core/constants/app_colors.dart';
 
 class MovieCard extends StatelessWidget {
   final Movie movie;
+  final VoidCallback onDelete;
 
-  const MovieCard({super.key, required this.movie});
+  const MovieCard({super.key, required this.movie, required this.onDelete});
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +64,15 @@ class MovieCard extends StatelessWidget {
               ],
             ),
           ),
+          IconButton(
+            icon: const Icon(
+              Icons.delete_forever_outlined,
+              color: AppColors.errorValidation,
+            ),
+            onPressed: () {
+              onDelete();
+            },
+          ),
         ],
       ),
     );
@@ -73,8 +83,6 @@ class MovieCard extends StatelessWidget {
     if (movie.imagePath == null || movie.imagePath!.isEmpty) return null;
 
     if (kIsWeb) {
-      // Si en algún momento guardas URLs en lugar de rutas locales,
-      // puedes cambiar esto a NetworkImage(movie.imagePath!)
       return null;
     }
 
@@ -98,8 +106,6 @@ class MovieCard extends StatelessWidget {
       return const Icon(Icons.image, color: Colors.white38);
     }
 
-    // Si llegamos aquí y hay archivo válido, no mostramos nada extra
-    // porque la imagen ya está en DecorationImage.
     return null;
   }
 

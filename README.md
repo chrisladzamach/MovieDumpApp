@@ -68,6 +68,9 @@ lib/
 - Save the movie; it will appear in the main list with calculated average score.
 - Tap the delete button to remove a movie.
 
+![pageOne](https://github.com/user-attachments/assets/7a9f260c-5484-452c-9d8f-63fc1bf03c26)
+![pageTwo](https://github.com/user-attachments/assets/70edaf32-e041-47b4-848a-5d679f423d9d)
+
 ---
 
 ## ES: Versión en Español
@@ -138,3 +141,5 @@ lib/
 - Guarda la película; aparecerá en la lista principal con el puntaje promedio calculado.
 - Pulsa el botón de eliminar para borrar una película.
 
+![pageOne](https://github.com/user-attachments/assets/7a9f260c-5484-452c-9d8f-63fc1bf03c26)
+![pageTwo](https://github.com/user-attachments/assets/70edaf32-e041-47b4-848a-5d679f423d9d)

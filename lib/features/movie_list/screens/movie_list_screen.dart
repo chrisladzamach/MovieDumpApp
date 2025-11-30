@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:moviedump/core/constants/app_colors.dart';
 import '../../../app/routes.dart';
-import '../../../data/sample/movies_notifier.dart';
+import '../../../data/models/hive/movie_hive.dart';
 import '../widgets/movie_card.dart';
 
 class MovieListScreen extends StatelessWidget {
@@ -9,6 +10,8 @@ class MovieListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final movieBox = Hive.box<Movie>('moviesBox');
+
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
@@ -18,15 +21,14 @@ class MovieListScreen extends StatelessWidget {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-
       body: Stack(
         children: [
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: ValueListenableBuilder(
-              valueListenable: moviesNotifier,
-              builder: (context, movies, _) {
-                if (movies.isEmpty) {
+              valueListenable: movieBox.listenable(),
+              builder: (context, Box<Movie> box, _) {
+                if (box.isEmpty) {
                   return Align(
                     alignment: Alignment.topCenter,
                     child: Container(
@@ -36,10 +38,10 @@ class MovieListScreen extends StatelessWidget {
                         vertical: 12,
                       ),
                       decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.1),
+                        color: Colors.white,
                         borderRadius: BorderRadius.circular(12),
                         border: Border.all(
-                          color: Colors.white.withValues(alpha: 0.2),
+                          color: Colors.white,
                           width: 1,
                         ),
                       ),
@@ -70,6 +72,8 @@ class MovieListScreen extends StatelessWidget {
                   );
                 }
 
+                final movies = box.values.toList();
+
                 return ListView.builder(
                   itemCount: movies.length,
                   itemBuilder: (context, index) {
@@ -78,7 +82,7 @@ class MovieListScreen extends StatelessWidget {
                     return MovieCard(
                       movie: movie,
                       onDelete: () {
-                        deleteMovie(movie);
+                        movie.delete();
                       },
                     );
                   },
@@ -87,30 +91,25 @@ class MovieListScreen extends StatelessWidget {
             ),
           ),
 
+          // Flecha de orientación
           ValueListenableBuilder(
-            valueListenable: moviesNotifier,
-            builder: (context, movies, _) {
-              if (movies.isNotEmpty) return SizedBox.shrink();
+            valueListenable: movieBox.listenable(),
+            builder: (context, Box<Movie> box, _) {
+              if (box.isNotEmpty) return const SizedBox.shrink();
 
               return Positioned(
                 bottom: 80,
                 right: 5,
-                child: Column(
-                  children: const [
-                    Icon(
-                      Icons.arrow_downward,
-                      size: 80,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ],
+                child: const Icon(
+                  Icons.arrow_downward,
+                  size: 80,
+                  color: Colors.blue,
                 ),
               );
             },
           ),
         ],
       ),
-
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.pushNamed(context, Routes.addMovie);

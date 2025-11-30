@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
-import '../../../../data/models/movie.dart';
+import '../../../../data/models/hive/movie_hive.dart';
 import '../../../../core/constants/app_colors.dart';
 
 class MovieCard extends StatelessWidget {

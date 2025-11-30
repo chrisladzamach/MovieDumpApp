@@ -1,7 +1,7 @@
-import '../../../data/models/movie.dart';
-import '../../../data/models/evaluation_criteria.dart';
-import '../../../data/sample/evaluation_criteria.dart';
-import '../../../data/sample/movies_notifier.dart';
+import 'package:hive/hive.dart';
+import 'package:moviedump/data/sample/evaluation_criteria.dart';
+import '../../../data/models/hive/movie_hive.dart';
+import '../../../data/models/hive/evaluation_criteria_hive.dart';
 
 class AddMovieController {
   final List<EvaluationCriteria> criteria = defaultCriteria
@@ -13,15 +13,31 @@ class AddMovieController {
     criteria[index].score = newScore;
   }
 
-  void saveMovie(String title, String? note, {String? imagePath}) {
-    final newMovie = Movie(
+  Future<void> saveMovie(
+    String title,
+    String? note, {
+    String? imagePath,
+  }) async {
+    final criteriaBox = Hive.box<EvaluationCriteria>('criteriaBox');
+    final movieBox = Hive.box<Movie>('moviesBox');
+
+    for (var c in criteria) {
+      await criteriaBox.add(c);
+    }
+
+    final movie = Movie(
       title: title,
-      criteria: criteria,
+      criteria: HiveList(criteriaBox)..addAll(criteria),
       notes: note,
       imagePath: imagePath,
     );
 
-    moviesNotifier.value = [...moviesNotifier.value, newMovie];
+    await movieBox.add(movie);
+
+    criteria.clear();
+    criteria.addAll(
+      defaultCriteria.map((c) => EvaluationCriteria(name: c.name, score: 0.0)),
+    );
   }
 
   void addCriteria(String name) {
@@ -39,5 +55,4 @@ class AddMovieController {
         ),
       );
   }
-
 }

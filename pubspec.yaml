@@ -35,6 +35,9 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.8
+  hive: ^2.2.3         # Para usar Hive
+  hive_flutter: ^1.1.0 # Para integración con Flutter
+  path_provider: ^2.0.15 # Para ubicar el directorio donde se guardará la base de datos
 
 dev_dependencies:
   flutter_test:
@@ -46,6 +49,8 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
+  hive_generator: ^2.0.0  # Para generar adaptadores automáticamente
+  build_runner: ^2.4.0    # Para ejecutar el generador de código
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
